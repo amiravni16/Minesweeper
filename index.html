@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>Minesweeper</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body onload="onInit()">
+    <header>
+        <h1>Minesweeper</h1>
+    </header>
+    <div class="select">
+        <label for="level">Select Level:</label>
+        <select id="level" onchange="onLevelChange()">
+            <option value="beginner">Beginner</option>
+            <option value="medium">Medium</option>
+            <option value="expert">Expert</option>
+        </select>
+    </div>
+    <div>
+        <span>Lives: </span>
+        <span id="lives">3</span>
+    </div>
+    <table id="board"></table>
+    <script src="js/script.js"></script>
+</body>
+</html>
