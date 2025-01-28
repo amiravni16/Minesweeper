@@ -19,9 +19,15 @@ function startGame() {
         coveredCount: gLevel.SIZE * gLevel.SIZE,
         markedCount: 0,
         secsPassed: 0,
+        millisecondsPassed: 0,
         lives: 3,
         isFirstClick: true
     }
+
+    clearInterval(gTimerInterval)
+    gTimerInterval = null
+    document.getElementById('timer').innerText = 'Time: 0.000'
+
     gBoard = buildBoard(false)
     updateLivesDisplay()
     renderBoard(gBoard)
@@ -135,6 +141,16 @@ function onCellClicked(elCell, i, j) {
 
     if (gGame.isFirstClick) {
         gGame.isFirstClick = false
+
+        gTimerInterval = setInterval(() => {
+            gGame.millisecondsPassed += 10
+            if (gGame.millisecondsPassed >= 1000) {
+                gGame.secsPassed++
+                gGame.millisecondsPassed = 0
+            }
+            document.getElementById('timer').innerText = `Time: ${gGame.secsPassed}.${String(gGame.millisecondsPassed).padStart(3, '0')}`
+        }, 10)
+
         placeMinesAfterFirstClick(gBoard, i, j)
         setMinesNegsCount(gBoard)
     }
@@ -161,9 +177,7 @@ function handleMineClick(elCell, i, j) {
         return
     }
 
-   
     checkGameOver()
-
     alert('You clicked a mine! One life down!')
 }
 
@@ -229,7 +243,6 @@ function checkGameOver() {
     var totalCells = gLevel.SIZE * gLevel.SIZE
     var nonMineCells = totalCells - gLevel.MINES
 
-    
     if (gGame.coveredCount === gLevel.MINES) {
         gameOver(true)
     }
@@ -237,6 +250,9 @@ function checkGameOver() {
 
 function gameOver(isWin) {
     gGame.isOn = false
+
+    clearInterval(gTimerInterval)
+
     revealBoard()
     alert(isWin ? 'You win! 🎉' : 'Game over! 💥')
 }

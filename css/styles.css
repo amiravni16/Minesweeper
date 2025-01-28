@@ -1,58 +1,91 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Trebuchet MS';
     text-align: center;
-    background-color: #f0f0f0;
+    background-color: #9ce9f3;
     margin: 0;
     padding: 0;
+    color: #333;
 }
 
 h1 {
-    color: #333;
+    color: #01579b;
     margin-top: 20px;
+    font-size: 36px;
+  
 }
 
 label {
-    font-size: 18px;
+    font-size: 20px;
     margin-right: 10px;
 }
 
 select {
-    font-size: 16px;
-    padding: 5px;
+    font-size: 18px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #417c9c;
+    background-color: #b3e5fc;
+    color: #01579b;
+}
+
+.info {
+    margin: 20px 0;
+    font-size: 18px;
 }
 
 #lives {
-    font-size: 20px;
     font-weight: bold;
-    color: #d9534f;
+    color: #d32f2f;
+}
+
+#timer {
+    margin-left: 15px;
+    font-weight: bold;
+    color: #01579b;
 }
 
 table {
     border-collapse: collapse;
     margin: 20px auto;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 td {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #000;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #0277bd;
     text-align: center;
     cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
 }
 
 .covered {
-    background-color: #ccc;
+    background-color: #81d4fa;
 }
 
 .uncovered {
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
 .marked {
-    background-color: #ff0;
+    background-color: #ffcc80;
 }
 
 td.mine {
-    background-color: #ff0000;
-    color: #000; 
+    background-color: #ff5252;
+    color: #fff;
+}
+footer {
+    width: 200px;
+    height: 150px; 
+    margin:  auto; 
+    padding: 5px;
+    background-color: #0288d1;
+    color: #fff;
+    text-align: center;
+    font-size: 36px;
+ 
+    border-radius: 5px; 
 }
