@@ -1,3 +1,5 @@
+'use strict'
+
 var gGame
 var gTimerInterval
 var gSmiley = '😃'
@@ -15,7 +17,7 @@ function startGame() {
         secsPassed: 0,
         millisecondsPassed: 0,
         lives: 3,
-        isFirstClick: true
+        isFirstClick: true,
     }
 
     clearInterval(gTimerInterval)
@@ -23,7 +25,7 @@ function startGame() {
     document.getElementById('timer').innerText = 'Time: 0.000'
     updateSmiley('😃')
 
-    gBoard = buildBoard(false)
+    gBoard = buildBoard()
     updateLivesDisplay()
     renderBoard(gBoard)
 }
@@ -31,6 +33,12 @@ function startGame() {
 function onCellClicked(elCell, i, j) {
     if (!gGame.isOn) return
 
+    if (gGame.isHintActive) {
+        revealHintArea(i, j)
+        gGame.isHintActive = false
+        document.getElementById('board').classList.remove('hint-mode')
+        return
+    }
     if (gGame.isFirstClick) {
         gGame.isFirstClick = false
 
@@ -79,9 +87,6 @@ function handleMineClick(elCell, i, j) {
 }
 
 function checkGameOver() {
-    var totalCells = gLevel.SIZE * gLevel.SIZE
-    var nonMineCells = totalCells - gLevel.MINES
-
     if (gGame.coveredCount === gLevel.MINES) {
         gameOver(true)
     }
@@ -124,3 +129,4 @@ function revealBoard() {
         }
     }
 }
+

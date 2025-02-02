@@ -1,3 +1,6 @@
+'use strict'
+
+
 function updateSmiley(smiley) {
     document.querySelector('.smiley').innerText = smiley
 }
@@ -82,7 +85,7 @@ function expandUncover(board, neighborCell, i, j) {
                     `td[data-row='${row}'][data-col='${col}']`
                 )
 
-                if (cell.isCovered && !cell.isMine) {
+                if (cell.isCovered && !cell.isMine && !cell.isMarked) {
                     uncoverCell(neighborCellEl, row, col)
                 }
             }

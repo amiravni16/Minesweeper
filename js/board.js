@@ -1,3 +1,5 @@
+'use strict'
+
 var gBoard
 var gLevels = {
     beginner: { SIZE: 4, MINES: 2 },
@@ -9,22 +11,15 @@ var gLevel = gLevels.beginner
 function onLevelChange() {
     var levelSelect = document.getElementById('level')
     var selectedLevel = levelSelect.value
-    
-    
     gLevel = gLevels[selectedLevel]
-    
-
     startGame()
 }
 
-function buildBoard(placeMinesInitially) {
+function buildBoard() {
     var board = createBoard(gLevel.SIZE)
-    if (placeMinesInitially) {
-        placeMines(board, gLevel.MINES)
-    }
-    setMinesNegsCount(board)
     return board
 }
+
 
 function createBoard(size) {
     var board = []
