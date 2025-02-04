@@ -12,6 +12,7 @@ function onLevelChange() {
     var levelSelect = document.getElementById('level')
     var selectedLevel = levelSelect.value
     gLevel = gLevels[selectedLevel]
+    updateBestScore()
     startGame()
 }
 

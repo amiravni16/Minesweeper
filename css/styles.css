@@ -32,6 +32,8 @@ h1 {
 
 label {
     font-size: 20px;
+    font-weight: bold;
+    color: #01579b;
     margin-right: 10px;
 }
 
@@ -180,7 +182,7 @@ footer {
     background-color: #01579b; 
 }
 
-#lives {
+#hearts {
     font-size: 24px; 
     color: #e21111; 
     margin-right: 10px; 
@@ -190,4 +192,128 @@ footer {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+}
+
+.hints-container {
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.hint {
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.hint:hover {
+    transform: scale(1.1);
+}
+
+.hint.active {
+    opacity: 1;
+    filter: drop-shadow(0 0 5px yellow);
+}
+
+.hint.used {
+    display: none;
+}
+
+.cell-hint {
+    background-color: #fff7d1 !important;
+    transition: background-color 0.3s ease;
+}
+.hints-label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #01579b;
+    margin-right: 10px;
+}
+#Lives{
+    font-size: 20px;
+    font-weight: bold;
+    color: #01579b;
+    margin-right: 10px;
+}
+
+.best-score-label {
+    font-size: 20px;
+    font-weight: bold;
+    color: #01579b;
+}
+
+#best-score {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d32f2f; 
+}
+
+:root {
+    --bg-color: #9ce9f3;
+    --text-color: #333;
+    --header-color: #01579b;
+    --cell-covered: #81d4fa;
+    --cell-uncovered: #ffffff;
+    --cell-hover: #4fc3f7;
+    --footer-bg: #0288d1;
+    --footer-color: #fff;
+    --modal-bg: #fff;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --header-color: #64b5f6;
+    --cell-covered: #424242;
+    --cell-uncovered: #2c2c2c;
+    --cell-hover: #616161;
+    --footer-bg: #333333;
+    --footer-color: #e0e0e0;
+    --modal-bg: #333;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+h1 {
+    color: var(--header-color);
+}
+
+.control-label {
+    color: var(--header-color);
+}
+
+td.covered {
+    background-color: var(--cell-covered);
+}
+
+td.uncovered {
+    background-color: var(--cell-uncovered);
+}
+
+td.covered:hover {
+    background-color: var(--cell-hover);
+}
+
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-color);
+}
+
+.modal-content {
+    background-color: var(--modal-bg);
+    color: var(--header-color);
+}
+
+#theme-toggle {
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
 }

@@ -3,9 +3,15 @@
 var gGame
 var gTimerInterval
 var gSmiley = '😃'
+var gHint = {
+    isHintActive: false,
+    hintsRemaining: 3
+}
+
 
 function onInit() {
     gLevel = gLevels.beginner
+    initTheme()
     startGame()
 }
 
@@ -19,6 +25,8 @@ function startGame() {
         lives: 3,
         isFirstClick: true,
     }
+    
+    resetHints()
 
     clearInterval(gTimerInterval)
     gTimerInterval = null
@@ -28,17 +36,17 @@ function startGame() {
     gBoard = buildBoard()
     updateLivesDisplay()
     renderBoard(gBoard)
+    updateBestScore()
 }
 
 function onCellClicked(elCell, i, j) {
     if (!gGame.isOn) return
 
-    if (gGame.isHintActive) {
-        revealHintArea(i, j)
-        gGame.isHintActive = false
-        document.getElementById('board').classList.remove('hint-mode')
+    if (gHint.isHintActive) {
+        useHint(i, j)
         return
     }
+
     if (gGame.isFirstClick) {
         gGame.isFirstClick = false
 
@@ -97,11 +105,12 @@ function gameOver(isWin) {
     clearInterval(gTimerInterval)
     updateSmiley(isWin ? '😎' : '🤯')
     revealBoard()
+    if (isWin) saveBestScore()
     showModal(isWin ? 'You win! 🎉' : 'Game over! 💥')
 }
 
 function updateLivesDisplay() {
-    var livesElement = document.getElementById('lives')
+    var livesElement = document.getElementById('hearts')
     var hearts = ''
 
     for (var i = 0; i < gGame.lives; i++) {
@@ -130,3 +139,108 @@ function revealBoard() {
     }
 }
 
+function resetHints() {
+    gHint.isHintActive = false
+    gHint.hintsRemaining = 3
+    const hints = document.querySelectorAll('.hint')
+    hints.forEach(hint => {
+        hint.classList.remove('active', 'used')
+    })
+}
+
+function onHintClick(elHint) {
+    if (!gGame.isOn || elHint.classList.contains('used')) return
+    
+    if (gHint.isHintActive) {
+        
+        const activeHint = document.querySelector('.hint.active')
+        if (activeHint) {
+            activeHint.classList.remove('active')
+        }
+        gHint.isHintActive = false
+    } else {
+        
+        elHint.classList.add('active')
+        gHint.isHintActive = true
+    }
+}
+
+function useHint(row, col) {
+    const activeHint = document.querySelector('.hint.active')
+    if (!activeHint) return
+
+    activeHint.classList.remove('active')
+    activeHint.classList.add('used')
+    gHint.isHintActive = false
+    gHint.hintsRemaining--
+
+   
+    const revealedCells = []
+    
+    for (let i = row - 1; i <= row + 1; i++) {
+        for (let j = col - 1; j <= col + 1; j++) {
+            if (i >= 0 && i < gBoard.length && j >= 0 && j < gBoard[0].length) {
+                const cell = gBoard[i][j]
+                const elCell = document.querySelector(`td[data-row='${i}'][data-col='${j}']`)
+                
+                if (cell.isCovered && !cell.isMarked) {
+                    revealedCells.push({
+                        element: elCell,
+                        content: cell.isMine ? '💣' : (cell.minesAroundCount || '')
+                    })
+                    
+                    elCell.classList.add('cell-hint')
+                    elCell.innerText = cell.isMine ? '💣' : (cell.minesAroundCount || '')
+                }
+            }
+        }
+    }
+
+    setTimeout(() => {
+        revealedCells.forEach(({element, content}) => {
+            element.classList.remove('cell-hint')
+            if (element.classList.contains('covered')) {
+                element.innerText = ''
+            }
+        })
+    }, 1500)
+}
+
+function saveBestScore() {
+    const currentLevel = document.getElementById('level').value
+    const currentTime = gGame.secsPassed + (gGame.millisecondsPassed / 1000)
+    const bestScore = localStorage.getItem(`bestScore_${currentLevel}`)
+    
+    if (!bestScore || currentTime < parseFloat(bestScore)) {
+        localStorage.setItem(`bestScore_${currentLevel}`, currentTime.toFixed(3))
+        updateBestScore()
+    }
+}
+
+function updateBestScore() {
+    const currentLevel = document.getElementById('level').value
+    const bestScore = localStorage.getItem(`bestScore_${currentLevel}`)
+    const bestScoreElement = document.getElementById('best-score')
+    bestScoreElement.innerText = bestScore ? `${bestScore}s` : '-'
+}
+
+
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light'
+    document.documentElement.setAttribute('data-theme', savedTheme)
+    updateThemeButton(savedTheme)
+}
+
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
+    
+    document.documentElement.setAttribute('data-theme', newTheme)
+    localStorage.setItem('theme', newTheme)
+    updateThemeButton(newTheme)
+}
+
+function updateThemeButton(theme) {
+    const button = document.getElementById('theme-toggle')
+    button.textContent = theme === 'dark' ? '🌜' : '🌞'
+}

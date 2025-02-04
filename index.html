@@ -18,15 +18,32 @@
                 <option value="expert">Expert</option>
             </select>
         </div>
+        
         <div class="info">
-            <span>Lives: </span>
-            <span id="lives">❤️❤️❤️</span>
+            <span id="Lives">Lives: </span>
+            <span id="hearts">❤️❤️❤️</span>
             <span id="timer">Time: 0</span>
         </div>
+        <div class="info">
+            <span class="best-score-label">Best Score: </span>
+            <span id="best-score">-</span>
+        </div>
+        <div class="control-item">
+            <span class="control-label">Theme: </span>
+            <button id="theme-toggle" onclick="toggleTheme()">🌞</button>
+        </div>
         <table id="board"></table>
+        <div class="hints-container">
+            <span class="hints-label">Hints: </span>
+            <div class="hint" onclick="onHintClick(this)">💡</div>
+            <div class="hint" onclick="onHintClick(this)">💡</div>
+            <div class="hint" onclick="onHintClick(this)">💡</div>
+        </div>
+
         <footer>
             <p>Created by Amir Avni</p>
         </footer>
+
     </div>
     <div id="modal" class="modal">
         <div class="modal-content">
