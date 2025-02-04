@@ -41,20 +41,26 @@ function onCellMarked(elCell) {
     var j = parseInt(elCell.dataset.col)
     var cell = gBoard[i][j]
 
-    if (!cell.isCovered) return
-
+    if (!cell.isCovered && !cell.isMarked) return
     if (cell.isMarked) {
+
         cell.isMarked = false
-        elCell.classList.remove('marked')
+        cell.isCovered = true
+        elCell.classList.remove('marked', 'uncovered')
+        elCell.classList.add('covered')
         elCell.innerText = ''
         gGame.markedCount--
     } else {
+
         cell.isMarked = true
-        elCell.classList.add('marked')
+        cell.isCovered = false
+        elCell.classList.remove('covered')
+        elCell.classList.add('marked', 'uncovered')
         elCell.innerText = '🚩'
         gGame.markedCount++
     }
 }
+
 
 function uncoverCell(elCell, i, j) {
     var cell = gBoard[i][j]
